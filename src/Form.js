@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {ButtonToolbar, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
+import './App.css'
 
 class Form extends Component {
     constructor(props) {
@@ -7,13 +9,12 @@ class Form extends Component {
         this.state = {
             searchInput: "",
             locationInput: "",
-            items: [],
-            toggleButtonClass: "button-off"
+            priceFilter: []
         }
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleLocationInput = this.handleLocationInput.bind(this);
         this.handleSearchInput = this.handleSearchInput.bind(this);
-        this.toggleButtonClass = this.toggleButtonClass.bind(this);
+        this.handlePriceFilter = this.handlePriceFilter.bind(this);
     }
 
     handleOnSubmit(e) {
@@ -28,8 +29,15 @@ class Form extends Component {
         this.setState({locationInput: e.target.value});
     }
 
-    toggleButtonClass() {
-        this.setState({toggleButtonClass: this.state.toggleButtonClass === "button-on" ? "button-off" : "button-on"})
+    handlePriceFilter(e) {
+        const {priceFilter} = this.state;
+        if (priceFilter.indexOf(e.target.value) !== -1) {
+            const result = priceFilter.filter(price => price !== e.target.value);
+            this.setState({priceFilter: result});
+        }
+        else {
+            this.setState({priceFilter: [...priceFilter, e.target.value]});
+        }
     }
 
     render() {
@@ -46,10 +54,14 @@ class Form extends Component {
                 </span>
                 <br />
                 <span>
-                    <button className={this.state.toggleButtonClass} onClick={this.toggleButtonClass}>$</button>
-                    <button className={this.state.toggleButtonClass} onClick={this.toggleButtonClass}>$$</button>
-                    <button className={this.state.toggleButtonClass} onClick={this.toggleButtonClass}>$$$</button>
-                    <button className={this.state.toggleButtonClass} onClick={this.toggleButtonClass}>$$$$</button>
+                    <ButtonToolbar>
+                        <ToggleButtonGroup type="checkbox">
+                            <ToggleButton value={1} onChange={this.handlePriceFilter}>$</ToggleButton>
+                            <ToggleButton value={2} onChange={this.handlePriceFilter}>$$</ToggleButton>
+                            <ToggleButton value={3} onChange={this.handlePriceFilter}>$$$</ToggleButton>
+                            <ToggleButton value={4} onChange={this.handlePriceFilter}>$$$$</ToggleButton>
+                        </ToggleButtonGroup>
+                    </ButtonToolbar>
                 </span>
             </form>
         );

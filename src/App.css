@@ -32,6 +32,11 @@
     padding: 20px;
 }
 
+.button {
+    background-color: red;
+    color: red;
+}
+
 .button-off {
     background-color: orange;
 }

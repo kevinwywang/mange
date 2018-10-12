@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Form from './Form';
 import Results from './Results';
+import axios from 'axios';
 
 class App extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class App extends Component {
         this.state = {
             searchInput: "",
             locationInput: "",
-            priceFilter: []
+            priceFilter: [],
+            price: ''
         }
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleLocationInput = this.handleLocationInput.bind(this);
@@ -18,7 +20,21 @@ class App extends Component {
     }
 
     handleOnSubmit(e) {
+        const {priceFilter} = this.state;
+        console.log(priceFilter);
         e.preventDefault();
+        axios.get(
+            'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search',
+            {
+                headers: {'Authorization': 'Bearer zUfErj44h2ajR_tWZ1UIsFQ6Vdqad6HLCgfKX45jLbN0XCPIpW-GSs4RJ422WnXkeIoCyWF2gsRBdyOsHtJnMPDq1qH_pIVCLsPWOQylNScUwv5JQTJimbnu0BKsW3Yx'},
+                params: {
+                    'location': '63139',
+                    'price': this.state.priceFilter
+                }
+            }
+        )
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
     }
 
     handleSearchInput(e) {

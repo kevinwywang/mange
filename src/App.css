@@ -28,8 +28,9 @@
   to { transform: rotate(360deg); }
 }
 
-.Form {
+.form {
     padding: 20px;
+    text-align: center;
 }
 
 .button {
@@ -45,4 +46,9 @@
     background-color: #8dca66;
     color: #41a700;
     border-color: #41a700;
+}
+
+.filter {
+    display: inline-block;
+    padding: 20px;
 }

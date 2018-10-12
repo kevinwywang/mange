@@ -6,7 +6,7 @@ class Form extends Component {
 
     render() {
         return (
-            <form onSubmit={this.props.handleOnSubmit} className="Form">
+            <form onSubmit={this.props.handleOnSubmit} className="form">
                 <span className="inline">
                     Find: <input type="text" ref="search" onBlur={this.props.handleSearchInput} />
                 </span>
@@ -18,7 +18,7 @@ class Form extends Component {
                 </span>
                 <br />
                 <span>
-                    <ButtonToolbar>
+                    <ButtonToolbar className="filter">
                         <ToggleButtonGroup type="checkbox">
                             <ToggleButton value={1} onChange={this.props.handlePriceFilter}>$</ToggleButton>
                             <ToggleButton value={2} onChange={this.props.handlePriceFilter}>$$</ToggleButton>

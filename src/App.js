@@ -11,7 +11,7 @@ class App extends Component {
             searchInput: "",
             locationInput: "",
             priceFilter: [],
-            price: ''
+            restaurants: []
         }
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleLocationInput = this.handleLocationInput.bind(this);
@@ -20,20 +20,26 @@ class App extends Component {
     }
 
     handleOnSubmit(e) {
-        const {priceFilter} = this.state;
-        console.log(priceFilter);
         e.preventDefault();
+
         axios.get(
             'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search',
             {
-                headers: {'Authorization': 'Bearer zUfErj44h2ajR_tWZ1UIsFQ6Vdqad6HLCgfKX45jLbN0XCPIpW-GSs4RJ422WnXkeIoCyWF2gsRBdyOsHtJnMPDq1qH_pIVCLsPWOQylNScUwv5JQTJimbnu0BKsW3Yx'},
+                headers: {'Authorization': 'Bearer 48M3zuGsgZDb7XL2A08YeYRFv7JHEMpZIrLCf4nAm-dJazY0H0Pdfr87rD-5CCIEX6H1zpAt_nRbAW3Yx'},
                 params: {
-                    'location': '63139',
-                    'price': this.state.priceFilter
+                    'item': this.state.searchInput,
+                    'location': this.state.locationInput,
+                    'open_now': 'true',
+                    'radius': '1000',
+                    'limit': '50',
+                    'price': this.state.priceFilter.toString()
                 }
             }
         )
-        .then(response => console.log(response))
+        .then(response => {
+            console.log(response.data);
+            this.setState({restaurants: response.data});
+        })
         .catch(error => console.log(error))
     }
 
@@ -74,6 +80,7 @@ class App extends Component {
                         searchInput={this.state.searchInput}
                         locationInput={this.state.locationInput}
                         priceFilter={this.state.priceFilter}
+                        restaurants={this.state.restaurants}
                     />
                 </div>
             </div>

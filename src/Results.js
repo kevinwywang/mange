@@ -7,15 +7,20 @@ class Results extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: null,
-            isLoaded: false,
-            items: []
         };
     }
 
+
+    displayResult = () => {
+        return <p>hi</p>
+    }
+
     render() {
+
+
         return (
             <div>
+                {this.displayResult}
             </div>
         );
     }
@@ -23,7 +28,7 @@ class Results extends Component {
 }
 
 Results.propTypes = {
-
+    restaurants: PropTypes.array.isRequired,
 }
 
 export default Results;

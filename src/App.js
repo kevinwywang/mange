@@ -11,7 +11,7 @@ class App extends Component {
             searchInput: "",
             locationInput: "",
             priceFilter: [],
-            restaurants: []
+            businesses: null
         }
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleLocationInput = this.handleLocationInput.bind(this);
@@ -25,7 +25,7 @@ class App extends Component {
         axios.get(
             'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search',
             {
-                headers: {'Authorization': 'Bearer 48M3zuGsgZDb7XL2A08YeYRFv7JHEMpZIrLCf4nAm-dJazY0H0Pdfr87rD-5CCIEX6H1zpAt_nRbAW3Yx'},
+                headers: {'Authorization': 'Bearer 43dtADq-xvpNaFDtD1FnlHw0Tp1EUMz9HGUY8M3zuGsgZDb7XL2A08YeYRFv7JHEMpZIrLC3Nj9L4UZ_r_0f4nAm-dJazY0H0Pdfr87rD-5CCIEX6H1zpAt_nRbAW3Yx'},
                 params: {
                     'item': this.state.searchInput,
                     'location': this.state.locationInput,
@@ -37,8 +37,7 @@ class App extends Component {
             }
         )
         .then(response => {
-            console.log(response.data);
-            this.setState({restaurants: response.data});
+            this.setState({businesses: response.data});
         })
         .catch(error => console.log(error))
     }
@@ -80,7 +79,7 @@ class App extends Component {
                         searchInput={this.state.searchInput}
                         locationInput={this.state.locationInput}
                         priceFilter={this.state.priceFilter}
-                        restaurants={this.state.restaurants}
+                        businesses={this.state.businesses}
                     />
                 </div>
             </div>

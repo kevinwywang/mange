@@ -10,17 +10,17 @@ class Results extends Component {
         };
     }
 
-
-    displayResult = () => {
-        return <p>hi</p>
-    }
-
     render() {
-
-
         return (
             <div>
-                {this.displayResult}
+                {this.props.businesses && this.props.businesses.businesses.map((business) => (
+                    <p key={business.id}>
+                    <img src={business.image_url} alt="restaurant" />
+                    {console.log(business.image_url)}
+                        {business.name}
+                    </p>
+                ))}
+
             </div>
         );
     }
@@ -28,7 +28,7 @@ class Results extends Component {
 }
 
 Results.propTypes = {
-    restaurants: PropTypes.array.isRequired,
+    businesses: PropTypes.object,
 }
 
 export default Results;

@@ -3,6 +3,7 @@ import './App.css';
 import Form from './Form';
 import Results from './Results';
 import axios from 'axios';
+require('dotenv').config();
 
 class App extends Component {
     constructor(props) {
@@ -11,26 +12,31 @@ class App extends Component {
             searchInput: "",
             locationInput: "",
             priceFilter: [],
+            distanceFilterTitle: "Distance",
+            distance: 480, //distance is in meters
+            resultNumberTitle: "# of Results",
+            resultNumber: 3,
             businesses: null
-        }
+        }  
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleLocationInput = this.handleLocationInput.bind(this);
         this.handleSearchInput = this.handleSearchInput.bind(this);
         this.handlePriceFilter = this.handlePriceFilter.bind(this);
+        this.handleDistanceFilter = this.handleDistanceFilter.bind(this);
+        this.handleResultNumberFilter = this.handleResultNumberFilter.bind(this);
     }
 
     handleOnSubmit(e) {
         e.preventDefault();
-
         axios.get(
             'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search',
             {
-                headers: {'Authorization': 'Bearer 43dtADq-xvpNaFDtD1FnlHw0Tp1EUMz9HGUY8M3zuGsgZDb7XL2A08YeYRFv7JHEMpZIrLC3Nj9L4UZ_r_0f4nAm-dJazY0H0Pdfr87rD-5CCIEX6H1zpAt_nRbAW3Yx'},
+                headers: {'Authorization': 'Bearer ' + process.env.REACT_APP_YELP_API_KEY},
                 params: {
                     'item': this.state.searchInput,
                     'location': this.state.locationInput,
                     'open_now': 'true',
-                    'radius': '1000',
+                    'radius': this.state.distance,
                     'limit': '50',
                     'price': this.state.priceFilter.toString()
                 }
@@ -39,7 +45,8 @@ class App extends Component {
         .then(response => {
             this.setState({businesses: response.data});
         })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
+
     }
 
     handleSearchInput(e) {
@@ -61,6 +68,64 @@ class App extends Component {
         }
     }
 
+    handleDistanceFilter(key){
+        switch (key){
+            case "1":
+                this.setState({
+                    distanceFilterTitle: '0.3 mi',
+                    distance: 480
+                });
+                break;
+            case "2":
+                this.setState({
+                    distanceFilterTitle: '0.6 mi',
+                    distance: 965
+                });
+                break;
+            case "3":
+                this.setState({
+                    distanceFilterTitle: '1 mi',
+                    distance: 1610
+                });
+                break;
+            default:
+                this.setState({
+                    distanceFilterTitle: '0.3 mi',
+                    distance: 480
+                });
+                break;
+        }
+    }
+
+    handleResultNumberFilter(key){
+        switch (key){
+            case "1":
+                this.setState({
+                    resultNumberTitle: '1 Option',
+                    resultNumber: 1
+                });
+                break;
+            case "2":
+                this.setState({
+                    resultNumberTitle: '3 Options',
+                    resultNumber: 3
+                });
+                break;
+            case "3":
+                this.setState({
+                    resultNumberTitle: '5 Options',
+                    resultNumber: 5
+                });
+                break;
+            default:
+                this.setState({
+                    resultNumberTitle: '3 Options',
+                    resultNumber: 3
+                });
+                break;
+        }
+    }
+
     render() {
         return (
             <div className="App">
@@ -73,6 +138,10 @@ class App extends Component {
                     handleSearchInput={this.handleSearchInput}
                     handleLocationInput={this.handleLocationInput}
                     handlePriceFilter={this.handlePriceFilter}
+                    distanceFilterTitle={this.state.distanceFilterTitle}
+                    handleDistanceFilter={this.handleDistanceFilter}
+                    resultNumberTitle={this.state.resultNumberTitle}
+                    handleResultNumberFilter={this.handleResultNumberFilter}
                 />
                 <div>
                     <Results
@@ -80,6 +149,7 @@ class App extends Component {
                         locationInput={this.state.locationInput}
                         priceFilter={this.state.priceFilter}
                         businesses={this.state.businesses}
+                        resultNumber={this.state.resultNumber}
                     />
                 </div>
             </div>

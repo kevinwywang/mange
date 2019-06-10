@@ -19,7 +19,7 @@ class Form extends Component {
                 <br />
                 <span>
                     <ButtonToolbar className="filter">
-                        <ToggleButtonGroup type="checkbox">
+                        <ToggleButtonGroup type="checkbox" value={this.props.priceFilter}>
                             <ToggleButton value={1} onChange={this.props.handlePriceFilter}>$</ToggleButton>
                             <ToggleButton value={2} onChange={this.props.handlePriceFilter}>$$</ToggleButton>
                             <ToggleButton value={3} onChange={this.props.handlePriceFilter}>$$$</ToggleButton>
@@ -53,6 +53,7 @@ Form.propTypes = {
     handleResultNumberFilter: PropTypes.func.isRequired,
     distanceFilterTitle: PropTypes.string.isRequired,
     resultNumberTitle: PropTypes.string.isRequired,
+    priceFilter: PropTypes.array.isRequired
 }
 
 export default Form;

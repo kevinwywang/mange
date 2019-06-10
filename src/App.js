@@ -3,7 +3,7 @@ import './App.css';
 import Form from './Form';
 import Results from './Results';
 import axios from 'axios';
-require('dotenv').config();
+import { pass } from './key';
 
 class App extends Component {
     constructor(props) {
@@ -11,7 +11,7 @@ class App extends Component {
         this.state = {
             searchInput: "",
             locationInput: "",
-            priceFilter: [],
+            priceFilter: [1,2],
             distanceFilterTitle: "Distance",
             distance: 480, //distance is in meters
             resultNumberTitle: "# of Results",
@@ -28,17 +28,18 @@ class App extends Component {
 
     handleOnSubmit(e) {
         e.preventDefault();
+
         axios.get(
             'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search',
             {
-                headers: {'Authorization': 'Bearer ' + process.env.REACT_APP_YELP_API_KEY},
+                headers: {'Authorization': 'Bearer ' + pass},
                 params: {
                     'item': this.state.searchInput,
                     'location': this.state.locationInput,
                     'open_now': 'true',
                     'radius': this.state.distance,
                     'limit': '50',
-                    'price': this.state.priceFilter.toString()
+                    'price': this.state.priceFilter
                 }
             }
         )
@@ -59,12 +60,14 @@ class App extends Component {
 
     handlePriceFilter(e) {
         const {priceFilter} = this.state;
-        if (priceFilter.indexOf(e.target.value) !== -1) {
-            const result = priceFilter.filter(price => price !== e.target.value);
+        const priceValue = Number(e.target.value);
+
+        if (priceFilter.indexOf(priceValue) !== -1) {
+            const result = priceFilter.filter(price => price !== priceValue);
             this.setState({priceFilter: result});
         }
         else {
-            this.setState({priceFilter: [...priceFilter, e.target.value]});
+            this.setState({priceFilter: [...priceFilter, priceValue]});
         }
     }
 
@@ -142,6 +145,7 @@ class App extends Component {
                     handleDistanceFilter={this.handleDistanceFilter}
                     resultNumberTitle={this.state.resultNumberTitle}
                     handleResultNumberFilter={this.handleResultNumberFilter}
+                    priceFilter={this.state.priceFilter}
                 />
                 <div>
                     <Results

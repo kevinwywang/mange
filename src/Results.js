@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
-
 class Results extends Component {
 
     render() {
@@ -15,7 +13,6 @@ class Results extends Component {
             }
         }
 
-
         return (
             <div>
                 {businesses && businessNumberResults.map(num => (
@@ -24,9 +21,6 @@ class Results extends Component {
                         {businesses.businesses[num].name}
                     </p>
                 ))}
-                
-
-
             </div>
         );
     }
